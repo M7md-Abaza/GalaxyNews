@@ -1,0 +1,54 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.GalaxyNews" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <!-- For Main Bottom Sheet Dialog Theme -->
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+    </style>
+
+    <style name="CustomTextViewThemeMedium" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="fontFamily">@font/my_sfprodisplay_medium</item>
+    </style>
+
+    <style name="CustomTextViewThemeRegular" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="fontFamily">@font/my_sfprodisplay_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="CustomTextViewThemeSemiBold" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="fontFamily">@font/my_sfprodisplay_semibold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+    <style name="ThemeDialog" parent="android:Theme.Material.Dialog">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
+
+    <style name="RadiusImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">7%</item>
+    </style>
+
+    <!-- For Main Bottom Sheet Dialog Theme -->
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+    </style>
+    <!-- End Of Main Bottom Sheet Dialog Theme -->
+
+</resources>
