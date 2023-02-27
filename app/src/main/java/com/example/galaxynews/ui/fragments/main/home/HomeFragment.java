@@ -1,15 +1,13 @@
-package com.example.galaxynews.ui.main.home;
+package com.example.galaxynews.ui.fragments.main.home;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.galaxynews.databinding.FragmentHomeBinding;
-import java.util.ArrayList;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

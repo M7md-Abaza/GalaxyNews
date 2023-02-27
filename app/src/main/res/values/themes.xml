@@ -12,8 +12,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <!-- For Main Bottom Sheet Dialog Theme -->
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="CustomTextViewThemeMedium" parent="@android:style/TextAppearance.Widget.TextView">
@@ -41,14 +39,10 @@
         <item name="cornerSize">7%</item>
     </style>
 
-    <!-- For Main Bottom Sheet Dialog Theme -->
-    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
-    </style>
+    <style name="RadiusImageView_1" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">3%</item>
 
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bg_bottom_sheet</item>
     </style>
-    <!-- End Of Main Bottom Sheet Dialog Theme -->
 
 </resources>

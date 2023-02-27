@@ -3,4 +3,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="latest_news">Latest News</string>
     <string name="news">News</string>
+    <string name="welcome_in_the_show">Welcome in the show</string>
+    <string name="_2_hours_ago">2 Hours ago</string>
+    <string name="description_n_description_description_n_description_description">description \n description description \n description description</string>
+    <string name="_951">951</string>
 </resources>

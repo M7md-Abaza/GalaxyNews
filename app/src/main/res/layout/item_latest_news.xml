@@ -5,10 +5,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/bg_white"
-        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/_8sdp"
-        android:layout_height="wrap_content">
+        android:layout_marginStart="@dimen/_12sdp"
+        android:background="@color/bg_white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -22,48 +22,56 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/sliderTitle"
-                style="@style/CustomTextViewThemeSemiBold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingVertical="@dimen/_8sdp"
-                android:text="Welcome in the show"
-                android:textColor="#BFFFFFFF"
-                android:textSize="@dimen/_18ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/_100sdp" />
 
             <TextView
-                android:id="@+id/sliderTime"
-                style="@style/CustomTextViewThemeSemiBold"
-                android:layout_width="wrap_content"
+                android:id="@+id/itemTitle"
+                style="@style/CustomTextViewThemeMedium"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:text="2 Hours ago"
-                android:textColor="#E6FFFFFF"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:text="@string/welcome_in_the_show"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/sliderBookMark"
+            <TextView
+                android:id="@+id/itemTime"
+                style="@style/CustomTextViewThemeRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:text="@string/_2_hours_ago"
+                android:textColor="@color/bottom_nav_gray"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <ImageView
+                android:id="@+id/itemBookMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
-                android:src="@drawable/ic_bookmark_white"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/ic_bookmark"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/sliderImage"
+            android:id="@+id/itemImage"
             android:layout_width="@dimen/_115sdp"
             android:layout_height="@dimen/_115sdp"
             android:layout_marginBottom="@dimen/_16sdp"
