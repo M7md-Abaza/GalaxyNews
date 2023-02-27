@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/_8sdp"
         android:layout_marginStart="@dimen/_12sdp"
-        android:background="@color/bg_white">
+        android:background="@color/cerulean_blue_15">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -27,19 +27,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/_100sdp" />
+                app:layout_constraintGuide_begin="@dimen/_85sdp" />
 
             <TextView
                 android:id="@+id/itemTitle"
                 style="@style/CustomTextViewThemeMedium"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
+                android:maxLines="2"
+                android:layout_marginBottom="@dimen/_16sdp"
                 android:text="@string/welcome_in_the_show"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toTopOf="@+id/itemTime"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -47,14 +50,17 @@
             <TextView
                 android:id="@+id/itemTime"
                 style="@style/CustomTextViewThemeRegular"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
                 android:text="@string/_2_hours_ago"
+                android:maxLines="1"
                 android:textColor="@color/bottom_nav_gray"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_10ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/itemBookMark"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
             <ImageView
@@ -62,18 +68,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
-                android:layout_marginBottom="8dp"
                 android:src="@drawable/ic_bookmark"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/itemTime"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/itemTime"
                 tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/itemImage"
-            android:layout_width="@dimen/_115sdp"
-            android:layout_height="@dimen/_115sdp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
             android:layout_marginBottom="@dimen/_16sdp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"

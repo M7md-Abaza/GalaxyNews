@@ -13,5 +13,6 @@
     <color name="bottom_nav_gray">#615C5C</color>
     <color name="yellow">#FFC107</color>
     <color name="bg_white">#F1EEEE</color>
+    <color name="tv_bg_black">#A6000000</color>
 
 </resources>

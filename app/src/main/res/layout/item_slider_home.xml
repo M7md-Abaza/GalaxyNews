@@ -5,19 +5,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/sliderImage"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearance="@style/RadiusImageView" />
+            app:shapeAppearance="@style/RadiusImageView_1" />
 
         <TextView
             android:id="@+id/sliderTitle"
@@ -25,10 +25,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/welcome_in_the_show"
+            android:maxLines="2"
+            android:background="@color/tv_bg_black"
             android:textColor="#BFFFFFFF"
             android:paddingHorizontal="@dimen/_16sdp"
-            android:paddingVertical="@dimen/_8sdp"
-            android:textSize="@dimen/_18ssp"
+            android:layout_marginBottom="4dp"
+            android:paddingVertical="@dimen/_4sdp"
+            android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/sliderImage"
             app:layout_constraintStart_toStartOf="@+id/sliderImage" />
@@ -39,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:text="@string/_2_hours_ago"
             android:textColor="#E6FFFFFF"
             android:textSize="@dimen/_12ssp"
@@ -50,7 +53,7 @@
             android:id="@+id/sliderBookMark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_16sdp"
             android:src="@drawable/ic_bookmark_white"
             app:layout_constraintEnd_toEndOf="parent"

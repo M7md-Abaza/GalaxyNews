@@ -1,6 +1,7 @@
 package com.example.galaxynews.di;
 
 import com.example.galaxynews.data.HomeServices;
+import com.example.galaxynews.ui.fragments.main.home.HomeRepository;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +14,7 @@ import dagger.hilt.components.SingletonComponent;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
@@ -47,9 +49,10 @@ public class AppModule {
     @Singleton
     Retrofit providesRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder().
-                baseUrl("https://newsapi.org/").
+                baseUrl("https://newsapi.org/v2/").
                 client(okHttpClient).
                 addConverterFactory(GsonConverterFactory.create()).
+                addCallAdapterFactory(RxJava3CallAdapterFactory.create()).
                 build();
     }
 
@@ -57,6 +60,12 @@ public class AppModule {
     @Singleton
     HomeServices provideHomeServices(Retrofit retrofit) {
         return retrofit.create(HomeServices.class);
+    }
+
+    @Singleton
+    @Provides
+    HomeRepository providesRepository(HomeServices homeServices) {
+        return new HomeRepository(homeServices);
     }
 
 }
