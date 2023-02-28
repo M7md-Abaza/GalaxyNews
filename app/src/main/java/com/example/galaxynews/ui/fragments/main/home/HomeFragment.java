@@ -127,15 +127,7 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
         binding.homeSlider.setOffscreenPageLimit(3);
         binding.homeSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
-        new TabLayoutMediator(binding.progresses, binding.homeSlider, (tab, position) -> {
-            String tabTitle = "";
-            if (position == 0) {
-                tabTitle = "";
-            } else if (position == 1) {
-                tabTitle = "";
-            }
-            tab.setText(tabTitle);
-        }).attach();
+        tabLayoutSetup();
 
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(40));
@@ -156,6 +148,17 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
         });
     }
 
+    private void tabLayoutSetup(){
+        new TabLayoutMediator(binding.progresses, binding.homeSlider, (tab, position) -> {
+            String tabTitle = "";
+            if (position == 0) {
+                tabTitle = "";
+            } else if (position == 1) {
+                tabTitle = "";
+            }
+            tab.setText(tabTitle);
+        }).attach();
+    }
     private final Runnable slideRunnable = new Runnable() {
         @Override
         public void run() {
