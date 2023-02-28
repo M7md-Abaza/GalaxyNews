@@ -28,6 +28,8 @@ import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeLatestOnClic
 import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeSliderOnClickInterface;
 import com.example.galaxynews.ui.fragments.main.home.adapter.LatestNewsAdapter;
 import com.example.galaxynews.ui.fragments.main.home.adapter.NewsSliderAdapter;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
 
@@ -92,7 +94,13 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
 
     private void observe() {
         viewModel.sliderNewsMutableLiveData.observe(requireActivity(), newsList -> {
-            newsSliderAdapter.setList(newsList, binding.homeSlider, this);
+            if (newsList.isEmpty()) {
+                binding.homeSlider.setVisibility(View.INVISIBLE);
+                binding.tvNoSliderData.setVisibility(View.VISIBLE);
+            } else {
+                newsSliderAdapter.setList(newsList, binding.homeSlider, this);
+                binding.tvNoSliderData.setVisibility(View.GONE);
+            }
             setupSlide();
             visProgress(false);
         });
@@ -118,6 +126,16 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
         binding.homeSlider.setClipChildren(false);
         binding.homeSlider.setOffscreenPageLimit(3);
         binding.homeSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+        new TabLayoutMediator(binding.progresses, binding.homeSlider, (tab, position) -> {
+            String tabTitle = "";
+            if (position == 0) {
+                tabTitle = "";
+            } else if (position == 1) {
+                tabTitle = "";
+            }
+            tab.setText(tabTitle);
+        }).attach();
 
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(40));

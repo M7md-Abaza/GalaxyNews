@@ -3,7 +3,7 @@
 
     <item android:state_selected="true">
 
-        <shape android:innerRadius="0dp" android:shape="ring" android:thickness="@dimen/_5sdp" android:useLevel="false">
+        <shape android:innerRadius="0dp" android:shape="ring" android:thickness="@dimen/_3sdp" android:useLevel="false">
             <solid android:color="@color/white" />
             <stroke android:width="@dimen/_1sdp" android:color="@color/orange"/>
         </shape>
@@ -11,7 +11,7 @@
     </item>
 
     <item>
-        <shape android:innerRadius="0dp" android:shape="ring" android:thickness="@dimen/_5sdp" android:useLevel="false">
+        <shape android:innerRadius="0dp" android:shape="ring" android:thickness="@dimen/_3sdp" android:useLevel="false">
             <solid android:color="@color/orange" />
         </shape>
 
