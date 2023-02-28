@@ -1,69 +1,154 @@
 package com.example.galaxynews.ui.fragments.main.search;
 
+
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.galaxynews.R;
+import com.example.galaxynews.databinding.FragmentSearchBinding;
+import com.example.galaxynews.databinding.ItemLatestNewsBinding;
+import com.example.galaxynews.pojo.Article;
+import com.example.galaxynews.ui.fragments.main.home.adapter.LatestNewsAdapter;
+import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeLatestOnClickInterface;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 @AndroidEntryPoint
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements HomeLatestOnClickInterface {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentSearchBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private SearchViewModel viewModel;
+    @Inject
+    LatestNewsAdapter latestNewsAdapter;
+
+    Boolean isLatestBookMark = false;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment searchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        binding = FragmentSearchBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+
+        setup();
+        observe();
+    }
+
+    private void setup() {
+
+        binding.rvLatestNews.setAdapter(latestNewsAdapter);
+
+        binding.edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable != null && !editable.toString().equals("")) {
+                    visProgress(true);
+                    data(editable.toString());
+                } else {
+                    binding.rvLatestNews.setVisibility(View.INVISIBLE);
+                    binding.tvNoData.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private void data(String search) {
+        if (viewModel.isOnline(requireContext())) {
+            viewModel.getSearchResults(search);
+        } else {
+            Navigation.findNavController(requireView()).navigate(R.id.noNetworkFragment);
+        }
+    }
+
+    private void observe() {
+
+        viewModel.searchMutableLiveData.observe(requireActivity(), dataList -> {
+            visProgress(false);
+            if (!dataList.isEmpty())
+                ui(dataList);
+        });
+
+    }
+
+    private void ui(List<Article> dataList) {
+        if (dataList == null || dataList.isEmpty()) {
+            binding.rvLatestNews.setVisibility(View.INVISIBLE);
+            binding.tvNoData.setVisibility(View.VISIBLE);
+        } else {
+            latestNewsAdapter.setList(dataList, this);
+            binding.rvLatestNews.setVisibility(View.VISIBLE);
+            binding.tvNoData.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+    public void homeLatestOnItemClick(Article article) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("para", article);
+        Navigation.findNavController(requireView()).navigate(R.id.detailsFragment, bundle);
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    public void homeLatestOnBookMarkClick(int position, ItemLatestNewsBinding itemLatestNewsBinding) {
+        if (isLatestBookMark) {
+            itemLatestNewsBinding.itemBookMark.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark, null));
+            isLatestBookMark = false;
+        } else {
+            itemLatestNewsBinding.itemBookMark.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark_yellow, null));
+            isLatestBookMark = true;
+        }
+    }
+
+    private void visProgress(boolean b) {
+
+        if (b) {
+            binding.progressLayout.startShimmer();
+            binding.progressLayout.setVisibility(View.VISIBLE);
+            binding.rvLatestNews.setVisibility(View.INVISIBLE);
+        } else {
+            binding.progressLayout.stopShimmer();
+            binding.progressLayout.setVisibility(View.GONE);
+            binding.rvLatestNews.setVisibility(View.VISIBLE);
+        }
     }
 }

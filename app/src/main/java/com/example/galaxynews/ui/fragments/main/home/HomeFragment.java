@@ -1,8 +1,6 @@
 package com.example.galaxynews.ui.fragments.main.home;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,7 +21,13 @@ import android.view.ViewGroup;
 
 import com.example.galaxynews.R;
 import com.example.galaxynews.databinding.FragmentHomeBinding;
+import com.example.galaxynews.databinding.ItemLatestNewsBinding;
+import com.example.galaxynews.databinding.ItemSliderHomeBinding;
 import com.example.galaxynews.pojo.Article;
+import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeLatestOnClickInterface;
+import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeSliderOnClickInterface;
+import com.example.galaxynews.ui.fragments.main.home.adapter.LatestNewsAdapter;
+import com.example.galaxynews.ui.fragments.main.home.adapter.NewsSliderAdapter;
 
 import java.util.List;
 
@@ -32,7 +36,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeSliderOnClickInterface, HomeLatestOnClickInterface {
 
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
@@ -40,6 +44,9 @@ public class HomeFragment extends Fragment {
     LatestNewsAdapter latestNewsAdapter;
     @Inject
     NewsSliderAdapter newsSliderAdapter;
+
+    Boolean isSliderBookMark = false;
+    Boolean isLatestBookMark = false;
 
     private final Handler slideHandler = new Handler();
 
@@ -85,7 +92,7 @@ public class HomeFragment extends Fragment {
 
     private void observe() {
         viewModel.sliderNewsMutableLiveData.observe(requireActivity(), newsList -> {
-            newsSliderAdapter.setList(newsList, binding.homeSlider);
+            newsSliderAdapter.setList(newsList, binding.homeSlider, this);
             setupSlide();
             visProgress(false);
         });
@@ -98,7 +105,7 @@ public class HomeFragment extends Fragment {
                         binding.rvLatestNews.setVisibility(View.INVISIBLE);
                         binding.tvNoData.setVisibility(View.VISIBLE);
                     } else {
-                        latestNewsAdapter.setList(newsList);
+                        latestNewsAdapter.setList(newsList, this);
                         binding.rvLatestNews.setVisibility(View.VISIBLE);
                         binding.tvNoData.setVisibility(View.GONE);
                     }
@@ -165,4 +172,44 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void homeSliderOnItemClick(Article article) {
+        gotoDetails(article);
+    }
+
+    @Override
+    public void homeLatestOnItemClick(Article article) {
+        gotoDetails(article);
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    public void homeSliderOnBookMarkClick(int position, ItemSliderHomeBinding itemSliderHomeBinding) {
+        if (isSliderBookMark) {
+            itemSliderHomeBinding.sliderBookMark.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark_white, null));
+            isSliderBookMark = false;
+        } else {
+            itemSliderHomeBinding.sliderBookMark.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark_yellow, null));
+            isSliderBookMark = true;
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    public void homeLatestOnBookMarkClick(int position, ItemLatestNewsBinding itemLatestNewsBinding) {
+        if (isLatestBookMark) {
+            itemLatestNewsBinding.itemBookMark.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark, null));
+            isLatestBookMark = false;
+        } else {
+            itemLatestNewsBinding.itemBookMark.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark_yellow, null));
+            isLatestBookMark = true;
+        }
+    }
+
+
+    private void gotoDetails(Article article) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("para", article);
+        Navigation.findNavController(requireView()).navigate(R.id.detailsFragment, bundle);
+    }
 }

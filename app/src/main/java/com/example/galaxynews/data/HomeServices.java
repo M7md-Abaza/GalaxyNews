@@ -8,11 +8,17 @@ import retrofit2.http.Query;
 
 public interface HomeServices {
 
-    @GET("everything")
-    Observable<HomeResponse> getNewsData(
-            @Query("q") String q,
-            @Query("from") String from,
-            @Query("sortBy") String sortBy ,
+
+
+    @GET("top-headlines")
+    Observable<HomeResponse> getByCountry(
+            @Query("country") String country,
+            @Query("apiKey") String apiKey
+    );
+
+    @GET("top-headlines")
+    Observable<HomeResponse> getBySource(
+            @Query("sources") String sources,
             @Query("apiKey") String apiKey
     );
 

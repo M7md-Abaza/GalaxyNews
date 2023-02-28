@@ -16,8 +16,12 @@ public class HomeRepository {
         this.homeServices = homeServices;
     }
 
-    public Observable<HomeResponse> getNewsData(String query, String fromDate, String sortOf, String apiKey) {
-        return homeServices.getNewsData(query, fromDate, sortOf, apiKey);
+    public Observable<HomeResponse> getByCountry(String query, String apiKey) {
+        return homeServices.getByCountry(query, apiKey);
+    }
+
+    public Observable<HomeResponse> getBySource(String query, String apiKey) {
+        return homeServices.getBySource(query, apiKey);
     }
 
 }

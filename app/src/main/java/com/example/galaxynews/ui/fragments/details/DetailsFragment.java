@@ -85,8 +85,10 @@ public class DetailsFragment extends Fragment {
         newsDetails = requireArguments().getParcelable("para");
 
         binding.tvTitle.setText(newsDetails.getTitle());
-        binding.tvTime.setText(newsDetails.getPublishedAt());
         binding.tvDetails.setText(newsDetails.getContent());
+
+        String[] data = newsDetails.getPublishedAt().split("T");
+        binding.tvTime.setText(data[data.length - 2]);
 
         String imageUrl = newsDetails.getUrlToImage();
         Picasso.get().load(imageUrl).into(binding.imageDetails);

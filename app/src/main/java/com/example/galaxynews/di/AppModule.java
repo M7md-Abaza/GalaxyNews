@@ -1,6 +1,7 @@
 package com.example.galaxynews.di;
 
 import com.example.galaxynews.data.HomeServices;
+import com.example.galaxynews.data.SearchServices;
 import com.example.galaxynews.ui.fragments.main.home.HomeRepository;
 
 import java.util.concurrent.TimeUnit;
@@ -62,10 +63,10 @@ public class AppModule {
         return retrofit.create(HomeServices.class);
     }
 
-    @Singleton
     @Provides
-    HomeRepository providesRepository(HomeServices homeServices) {
-        return new HomeRepository(homeServices);
+    @Singleton
+    SearchServices provideSearchServices(Retrofit retrofit) {
+        return retrofit.create(SearchServices.class);
     }
 
 }

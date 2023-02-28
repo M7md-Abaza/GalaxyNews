@@ -1,21 +1,19 @@
-package com.example.galaxynews.ui.fragments.main.home;
+package com.example.galaxynews.ui.fragments.main.home.adapter;
 
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.galaxynews.R;
 import com.example.galaxynews.databinding.ItemSliderHomeBinding;
 import com.example.galaxynews.pojo.Article;
+import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeSliderOnClickInterface;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,6 +23,7 @@ import javax.inject.Inject;
 
 public class NewsSliderAdapter extends RecyclerView.Adapter<NewsSliderAdapter.NewsSliderViewHolder> {
 
+    private HomeSliderOnClickInterface homeSliderOnClickInterface;
     private List<Article> latestNewsList = new ArrayList<>();
     private ViewPager2 viewPager2;
 
@@ -45,7 +44,10 @@ public class NewsSliderAdapter extends RecyclerView.Adapter<NewsSliderAdapter.Ne
     public void onBindViewHolder(@NonNull NewsSliderViewHolder holder, int position) {
 
         holder.binding.sliderTitle.setText(latestNewsList.get(position).getTitle());
-        holder.binding.sliderTime.setText(latestNewsList.get(position).getPublishedAt());
+
+        String[] data = latestNewsList.get(position).getPublishedAt().split("T");
+        holder.binding.sliderTime.setText(data[data.length - 2]);
+
         String imageUrl = latestNewsList.get(position).getUrlToImage();
         Picasso.get().load(imageUrl).into(holder.binding.sliderImage);
 
@@ -54,9 +56,21 @@ public class NewsSliderAdapter extends RecyclerView.Adapter<NewsSliderAdapter.Ne
         }
 
         holder.binding.getRoot().setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("para", latestNewsList.get(position));
-            Navigation.findNavController(holder.binding.getRoot()).navigate(R.id.detailsFragment, bundle);
+            if (homeSliderOnClickInterface != null) {
+                int pos = holder.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    homeSliderOnClickInterface.homeSliderOnItemClick(latestNewsList.get(pos));
+                }
+            }
+        });
+
+        holder.binding.sliderBookMark.setOnClickListener(v -> {
+            if (homeSliderOnClickInterface != null) {
+                int pos = holder.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    homeSliderOnClickInterface.homeSliderOnBookMarkClick(position, holder.binding);
+                }
+            }
         });
     }
 
@@ -77,9 +91,10 @@ public class NewsSliderAdapter extends RecyclerView.Adapter<NewsSliderAdapter.Ne
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    void setList(List<Article> NewsList, ViewPager2 viewPager2) {
+    public void setList(List<Article> NewsList, ViewPager2 viewPager2, HomeSliderOnClickInterface homeSliderOnClickInterface) {
         this.latestNewsList = NewsList;
         this.viewPager2 = viewPager2;
+        this.homeSliderOnClickInterface = homeSliderOnClickInterface;
         Log.d(TAG, "setList observe:" + NewsList);
         notifyDataSetChanged();
     }

@@ -15,5 +15,8 @@
     <color name="bg_white">#F1EEEE</color>
     <color name="tv_bg_black">#A6000000</color>
     <color name="shimmer_color">#d9d9d9</color>
+    <color name="cerulean">#007dce</color>
+    <color name="ice_blue_two">#eef4ff</color>
+    <color name="_gray">#CBCBCB</color>
 
 </resources>
