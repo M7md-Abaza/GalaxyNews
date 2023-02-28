@@ -25,4 +25,14 @@
         android:name="com.example.galaxynews.ui.fragments.main.setting.SettingFragment"
         tools:layout="@layout/fragment_setting" />
 
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.galaxynews.ui.fragments.details.DetailsFragment"
+        tools:layout="@layout/fragment_details" />
+
+    <fragment
+        android:id="@+id/noNetworkFragment"
+        android:name="com.example.galaxynews.ui.fragments.no_network.NoNetworkFragment"
+        tools:layout="@layout/fragment_no_network" />
+
 </navigation>

@@ -3,18 +3,17 @@ package com.example.galaxynews.ui.fragments.main.home;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.galaxynews.R;
-import com.example.galaxynews.databinding.ItemLatestNewsBinding;
 import com.example.galaxynews.databinding.ItemSliderHomeBinding;
 import com.example.galaxynews.pojo.Article;
 import com.squareup.picasso.Picasso;
@@ -50,9 +49,15 @@ public class NewsSliderAdapter extends RecyclerView.Adapter<NewsSliderAdapter.Ne
         String imageUrl = latestNewsList.get(position).getUrlToImage();
         Picasso.get().load(imageUrl).into(holder.binding.sliderImage);
 
-        if (position == latestNewsList.size()-2){
+        if (position == latestNewsList.size() - 2) {
             viewPager2.post(runnable);
         }
+
+        holder.binding.getRoot().setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("para", latestNewsList.get(position));
+            Navigation.findNavController(holder.binding.getRoot()).navigate(R.id.detailsFragment, bundle);
+        });
     }
 
     @Override

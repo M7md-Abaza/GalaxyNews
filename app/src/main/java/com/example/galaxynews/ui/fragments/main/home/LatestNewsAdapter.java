@@ -1,24 +1,23 @@
 package com.example.galaxynews.ui.fragments.main.home;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.galaxynews.R;
 import com.example.galaxynews.databinding.ItemLatestNewsBinding;
 import com.example.galaxynews.pojo.Article;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
-
-import kotlin.Unit;
 
 public class LatestNewsAdapter extends RecyclerView.Adapter<LatestNewsAdapter.ViewHolder> {
 
@@ -47,7 +46,9 @@ public class LatestNewsAdapter extends RecyclerView.Adapter<LatestNewsAdapter.Vi
         Picasso.get().load(imageUrl).into(holder.binding.itemImage);
 
         holder.binding.getRoot().setOnClickListener(v -> {
-
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("para", NewsList.get(position));
+            Navigation.findNavController(holder.binding.getRoot()).navigate(R.id.detailsFragment, bundle);
         });
 
     }

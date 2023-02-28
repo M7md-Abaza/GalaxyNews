@@ -5,10 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -23,7 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class MainActivity extends AppCompatActivity implements NavController.OnDestinationChangedListener {
 
     private ActivityMainBinding binding;
-    private NavController navController;
+    public NavController navController;
+    public NavHostFragment navHostFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
         View view = binding.getRoot();
         setContentView(view);
 
-        NavHostFragment navHostFragment =
-                (NavHostFragment) this.getSupportFragmentManager().findFragmentById(R.id.nav_host_main_fragment);
+        navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_main_fragment);
         assert navHostFragment != null;
         navController = navHostFragment.getNavController();
 
@@ -109,12 +108,4 @@ public class MainActivity extends AppCompatActivity implements NavController.OnD
         }
     }
 
-    private void visibleProgress(Boolean state) {
-
-        if (state) {
-//            binding.progressLayout.setVisibility(View.VISIBLE);
-        } else {
-//            binding.progressLayout.setVisibility(View.GONE);
-        }
-    }
 }

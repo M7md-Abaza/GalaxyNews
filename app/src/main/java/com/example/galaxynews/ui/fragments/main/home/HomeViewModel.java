@@ -2,6 +2,9 @@ package com.example.galaxynews.ui.fragments.main.home;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -88,9 +91,9 @@ public class HomeViewModel extends ViewModel {
 
             @Override
             public void onNext(@NonNull HomeResponse homeResponse) {
-                List<Article> newsList = homeResponse.getArticles().stream().filter(article -> article.getSource().getName().equals("bbc-news")).collect(Collectors.toList());
-                newsList.addAll(homeResponse.getArticles().stream().filter(article -> article.getSource().getName().equals("bbc- the-next-web")).collect(Collectors.toList()));
-                latestNewsMutableLiveData.setValue(newsList);
+//                List<Article> newsList = homeResponse.getArticles().stream().filter(article -> article.getSource().getName().equals("bbc-news")).collect(Collectors.toList());
+//                newsList.addAll(homeResponse.getArticles().stream().filter(article -> article.getSource().getName().equals("the-next-web")).collect(Collectors.toList()));
+                latestNewsMutableLiveData.setValue(homeResponse.getArticles());
             }
 
 
@@ -107,6 +110,13 @@ public class HomeViewModel extends ViewModel {
 
         observable.subscribe(observer);
 
+    }
+
+    public boolean isOnline(Context mContext) {
+        ConnectivityManager cm =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }
 

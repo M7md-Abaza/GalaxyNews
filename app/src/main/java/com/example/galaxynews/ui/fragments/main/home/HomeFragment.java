@@ -1,11 +1,15 @@
 package com.example.galaxynews.ui.fragments.main.home;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -17,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.galaxynews.R;
 import com.example.galaxynews.databinding.FragmentHomeBinding;
 import com.example.galaxynews.pojo.Article;
 
@@ -36,7 +41,7 @@ public class HomeFragment extends Fragment {
     @Inject
     NewsSliderAdapter newsSliderAdapter;
 
-    private Handler slideHandler = new Handler();
+    private final Handler slideHandler = new Handler();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,6 +66,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setup() {
+        visProgress(true);
         binding.rvLatestNews.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvLatestNews.setAdapter(latestNewsAdapter);
         binding.homeSlider.setAdapter(newsSliderAdapter);
@@ -69,18 +75,25 @@ public class HomeFragment extends Fragment {
     }
 
     private void data() {
-        viewModel.getNews();
-        viewModel.getLatestNews();
+        if (viewModel.isOnline(requireContext())) {
+            viewModel.getNews();
+            viewModel.getLatestNews();
+        } else {
+            Navigation.findNavController(requireView()).navigate(R.id.noNetworkFragment);
+        }
     }
 
     private void observe() {
         viewModel.sliderNewsMutableLiveData.observe(requireActivity(), newsList -> {
             newsSliderAdapter.setList(newsList, binding.homeSlider);
             setupSlide();
+            visProgress(false);
         });
 
         viewModel.latestNewsMutableLiveData.observe(requireActivity(), (List<Article> newsList) ->
                 {
+                    visProgress(false);
+
                     if (newsList == null || newsList.isEmpty()) {
                         binding.rvLatestNews.setVisibility(View.INVISIBLE);
                         binding.tvNoData.setVisibility(View.VISIBLE);
@@ -113,12 +126,12 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 slideHandler.removeCallbacks(slideRunnable);
-                slideHandler.postDelayed(slideRunnable,3000);
+                slideHandler.postDelayed(slideRunnable, 3000);
             }
         });
     }
 
-    private Runnable slideRunnable = new Runnable() {
+    private final Runnable slideRunnable = new Runnable() {
         @Override
         public void run() {
             binding.homeSlider.setCurrentItem(binding.homeSlider.getCurrentItem() + 1);
@@ -134,6 +147,22 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        slideHandler.postDelayed(slideRunnable,3000);
+        slideHandler.postDelayed(slideRunnable, 3000);
     }
+
+    private void visProgress(boolean b) {
+
+        if (b) {
+            binding.progressLayout.startShimmer();
+            binding.progressLayout.setVisibility(View.VISIBLE);
+            binding.homeSlider.setVisibility(View.INVISIBLE);
+            binding.rvLatestNews.setVisibility(View.INVISIBLE);
+        } else {
+            binding.progressLayout.stopShimmer();
+            binding.progressLayout.setVisibility(View.GONE);
+            binding.homeSlider.setVisibility(View.VISIBLE);
+            binding.rvLatestNews.setVisibility(View.VISIBLE);
+        }
+    }
+
 }

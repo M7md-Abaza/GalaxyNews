@@ -14,5 +14,6 @@
     <color name="yellow">#FFC107</color>
     <color name="bg_white">#F1EEEE</color>
     <color name="tv_bg_black">#A6000000</color>
+    <color name="shimmer_color">#d9d9d9</color>
 
 </resources>

@@ -1,11 +1,16 @@
 package com.example.galaxynews.pojo;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-public class Article {
+public class Article implements Parcelable {
 
     private Source source;
     private String author;
@@ -18,6 +23,28 @@ public class Article {
 
     private final Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+
+    protected Article(Parcel in) {
+        author = in.readString();
+        title = in.readString();
+        description = in.readString();
+        url = in.readString();
+        urlToImage = in.readString();
+        publishedAt = in.readString();
+        content = in.readString();
+    }
+
+    public static final Creator<Article> CREATOR = new Creator<Article>() {
+        @Override
+        public Article createFromParcel(Parcel in) {
+            return new Article(in);
+        }
+
+        @Override
+        public Article[] newArray(int size) {
+            return new Article[size];
+        }
+    };
 
     public Source getSource() {
         return source;
@@ -91,4 +118,19 @@ public class Article {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(author);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(url);
+        parcel.writeString(urlToImage);
+        parcel.writeString(publishedAt);
+        parcel.writeString(content);
+    }
 }

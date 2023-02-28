@@ -8,4 +8,6 @@
     <string name="description_n_description_description_n_description_description">description \n description description \n description description</string>
     <string name="_951">951</string>
     <string name="no_available_data">No Available Data At Now</string>
+    <string name="try_again">Try Again</string>
+    <string name="no_internet_connection">No Internet Connection</string>
 </resources>
