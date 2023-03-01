@@ -42,7 +42,7 @@ public class HomeViewModel extends BaseViewModel {
 
 
     public void getNews() {
-        Observable<HomeResponse> observable = homeRepository.getByCountry("egy", "eef75b5ba00148dfa0e7f01d858dcd5d")
+        Observable<HomeResponse> observable = homeRepository.getByCountry("eg", "eef75b5ba00148dfa0e7f01d858dcd5d")
                 // to change thread from Main Thread to io to run on background because it takes long time
                 .subscribeOn(Schedulers.io())
                 // to manage download(Observer) stream to ba as upload stream(Observable)
@@ -76,7 +76,7 @@ public class HomeViewModel extends BaseViewModel {
     }
 
     public void getLatestNews() {
-        Observable<HomeResponse> observable = homeRepository.getBySource("bbc-news", "eef75b5ba00148dfa0e7f01d858dcd5d")
+        Observable<HomeResponse> observable = homeRepository.getBySource("the-next-web,bbc-news", "eef75b5ba00148dfa0e7f01d858dcd5d")
                 // to change thread from Main Thread to io to run on background because it takes long time
                 .subscribeOn(Schedulers.io())
                 // to manage download(Observer) stream to ba as upload stream(Observable)

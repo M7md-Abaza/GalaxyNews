@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.galaxynews.R;
 import com.example.galaxynews.databinding.ItemSliderHomeBinding;
 import com.example.galaxynews.pojo.Article;
 import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeSliderOnClickInterface;
@@ -48,8 +49,13 @@ public class NewsSliderAdapter extends RecyclerView.Adapter<NewsSliderAdapter.Ne
         String[] data = latestNewsList.get(position).getPublishedAt().split("T");
         holder.binding.sliderTime.setText(data[data.length - 2]);
 
-        String imageUrl = latestNewsList.get(position).getUrlToImage();
-        Picasso.get().load(imageUrl).into(holder.binding.sliderImage);
+        if (latestNewsList.get(position).getUrlToImage() != null) {
+            String imageUrl = latestNewsList.get(position).getUrlToImage();
+            Picasso.get().load(imageUrl).into(holder.binding.sliderImage);
+        } else {
+            holder.binding.sliderImage.setImageResource(R.drawable.breaking_news);
+        }
+
 
         if (position == latestNewsList.size() - 2) {
             viewPager2.post(runnable);

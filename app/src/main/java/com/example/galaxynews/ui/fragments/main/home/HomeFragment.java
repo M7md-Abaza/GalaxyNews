@@ -28,7 +28,6 @@ import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeLatestOnClic
 import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeSliderOnClickInterface;
 import com.example.galaxynews.ui.fragments.main.home.adapter.LatestNewsAdapter;
 import com.example.galaxynews.ui.fragments.main.home.adapter.NewsSliderAdapter;
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
@@ -49,6 +48,7 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
 
     Boolean isSliderBookMark = false;
     Boolean isLatestBookMark = false;
+    int maxSize;
 
     private final Handler slideHandler = new Handler();
 
@@ -100,6 +100,7 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
             } else {
                 newsSliderAdapter.setList(newsList, binding.homeSlider, this);
                 binding.tvNoSliderData.setVisibility(View.GONE);
+                maxSize = newsList.size();
             }
             setupSlide();
             visProgress(false);
@@ -148,15 +149,8 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
         });
     }
 
-    private void tabLayoutSetup(){
+    private void tabLayoutSetup() {
         new TabLayoutMediator(binding.progresses, binding.homeSlider, (tab, position) -> {
-            String tabTitle = "";
-            if (position == 0) {
-                tabTitle = "";
-            } else if (position == 1) {
-                tabTitle = "";
-            }
-            tab.setText(tabTitle);
         }).attach();
     }
     private final Runnable slideRunnable = new Runnable() {

@@ -45,6 +45,7 @@
                 android:text="@string/no_highlight_news_for_egypt"
                 android:textColor="@color/bottom_nav_gray"
                 android:textSize="@dimen/_14ssp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/homeSlider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
