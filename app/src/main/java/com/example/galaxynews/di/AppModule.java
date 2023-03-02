@@ -2,7 +2,6 @@ package com.example.galaxynews.di;
 
 import com.example.galaxynews.data.HomeServices;
 import com.example.galaxynews.data.SearchServices;
-import com.example.galaxynews.ui.fragments.main.home.HomeRepository;
 
 import java.util.concurrent.TimeUnit;
 

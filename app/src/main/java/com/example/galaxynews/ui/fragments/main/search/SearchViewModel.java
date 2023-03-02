@@ -6,13 +6,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.galaxynews.pojo.Article;
 import com.example.galaxynews.pojo.HomeResponse;
 import com.example.galaxynews.ui.base.BaseViewModel;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -36,7 +36,8 @@ public class SearchViewModel extends BaseViewModel {
     public MutableLiveData<List<Article>> searchMutableLiveData = new MutableLiveData<>();
 
     public void getSearchResults(String search) {
-        Observable<HomeResponse> observable = searchRepository.searchData(search, "", "publishedAt", "eef75b5ba00148dfa0e7f01d858dcd5d")
+        Observable<HomeResponse> observable = searchRepository.searchData(search, apiKey)
+                .debounce(500, TimeUnit.MILLISECONDS)
                 // to change thread from Main Thread to io to run on background because it takes long time
                 .subscribeOn(Schedulers.io())
                 // to manage download(Observer) stream to ba as upload stream(Observable)

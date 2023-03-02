@@ -2,14 +2,10 @@ package com.example.galaxynews.ui.fragments.main.home;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.galaxynews.pojo.Article;
 import com.example.galaxynews.pojo.HomeResponse;
@@ -42,7 +38,7 @@ public class HomeViewModel extends BaseViewModel {
 
 
     public void getNews() {
-        Observable<HomeResponse> observable = homeRepository.getByCountry("eg", "eef75b5ba00148dfa0e7f01d858dcd5d")
+        Observable<HomeResponse> observable = homeRepository.getByCountry("eg", apiKey)
                 // to change thread from Main Thread to io to run on background because it takes long time
                 .subscribeOn(Schedulers.io())
                 // to manage download(Observer) stream to ba as upload stream(Observable)
@@ -76,7 +72,7 @@ public class HomeViewModel extends BaseViewModel {
     }
 
     public void getLatestNews() {
-        Observable<HomeResponse> observable = homeRepository.getBySource("the-next-web,bbc-news", "eef75b5ba00148dfa0e7f01d858dcd5d")
+        Observable<HomeResponse> observable = homeRepository.getBySource("the-next-web,bbc-news", apiKey)
                 // to change thread from Main Thread to io to run on background because it takes long time
                 .subscribeOn(Schedulers.io())
                 // to manage download(Observer) stream to ba as upload stream(Observable)

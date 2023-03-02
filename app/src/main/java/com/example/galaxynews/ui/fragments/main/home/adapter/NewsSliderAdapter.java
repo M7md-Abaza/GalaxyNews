@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.galaxynews.R;
 import com.example.galaxynews.databinding.ItemSliderHomeBinding;
@@ -26,7 +25,6 @@ public class NewsSliderAdapter extends RecyclerView.Adapter<NewsSliderAdapter.Ne
 
     private HomeSliderOnClickInterface homeSliderOnClickInterface;
     private List<Article> latestNewsList = new ArrayList<>();
-    private ViewPager2 viewPager2;
 
     @Inject
     public NewsSliderAdapter() {
@@ -56,10 +54,6 @@ public class NewsSliderAdapter extends RecyclerView.Adapter<NewsSliderAdapter.Ne
             holder.binding.sliderImage.setImageResource(R.drawable.breaking_news);
         }
 
-
-        if (position == latestNewsList.size() - 2) {
-            viewPager2.post(runnable);
-        }
 
         holder.binding.getRoot().setOnClickListener(v -> {
             if (homeSliderOnClickInterface != null) {
@@ -97,17 +91,11 @@ public class NewsSliderAdapter extends RecyclerView.Adapter<NewsSliderAdapter.Ne
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setList(List<Article> NewsList, ViewPager2 viewPager2, HomeSliderOnClickInterface homeSliderOnClickInterface) {
+    public void setList(List<Article> NewsList, HomeSliderOnClickInterface homeSliderOnClickInterface) {
         this.latestNewsList = NewsList;
-        this.viewPager2 = viewPager2;
         this.homeSliderOnClickInterface = homeSliderOnClickInterface;
         Log.d(TAG, "setList observe:" + NewsList);
         notifyDataSetChanged();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private final Runnable runnable = () -> {
-        latestNewsList.addAll(latestNewsList);
-        notifyDataSetChanged();
-    };
 }

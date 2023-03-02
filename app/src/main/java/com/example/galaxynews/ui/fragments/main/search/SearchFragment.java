@@ -1,6 +1,7 @@
 package com.example.galaxynews.ui.fragments.main.search;
 
 
+import static com.example.galaxynews.ui.fragments.main.home.HomeFragmentDirections.actionDetails;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.text.Editable;
@@ -25,6 +27,8 @@ import com.example.galaxynews.ui.fragments.main.home.adapter.LatestNewsAdapter;
 import com.example.galaxynews.ui.fragments.main.home.interfaces.HomeLatestOnClickInterface;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -60,7 +64,6 @@ public class SearchFragment extends Fragment implements HomeLatestOnClickInterfa
         viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
         setup();
-        observe();
     }
 
     private void setup() {
@@ -85,8 +88,9 @@ public class SearchFragment extends Fragment implements HomeLatestOnClickInterfa
                     data(editable.toString());
                 } else {
                     binding.rvLatestNews.setVisibility(View.INVISIBLE);
-                    binding.tvNoData.setVisibility(View.VISIBLE);
+                    visProgress(false);
                 }
+                binding.tvNoData.setVisibility(View.GONE);
             }
         });
     }
@@ -94,17 +98,22 @@ public class SearchFragment extends Fragment implements HomeLatestOnClickInterfa
     private void data(String search) {
         if (viewModel.isOnline(requireContext())) {
             viewModel.getSearchResults(search);
+            observe(search);
         } else {
             Navigation.findNavController(requireView()).navigate(R.id.noNetworkFragment);
         }
     }
 
-    private void observe() {
+    private void observe(String search) {
 
         viewModel.searchMutableLiveData.observe(requireActivity(), dataList -> {
             visProgress(false);
-            if (!dataList.isEmpty())
+            if (!dataList.isEmpty()) {
+                dataList = dataList.stream().filter(article -> article.getTitle().toLowerCase(Locale.ROOT)
+                        .contains(search.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
                 ui(dataList);
+            }
+
         });
 
     }
@@ -122,9 +131,9 @@ public class SearchFragment extends Fragment implements HomeLatestOnClickInterfa
 
     @Override
     public void homeLatestOnItemClick(Article article) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("para", article);
-        Navigation.findNavController(requireView()).navigate(R.id.detailsFragment, bundle);
+        NavDirections actionDetails = actionDetails(article);
+        Navigation.findNavController(requireView()).navigate((NavDirections) actionDetails);
+
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

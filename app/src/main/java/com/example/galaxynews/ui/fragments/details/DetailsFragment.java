@@ -82,7 +82,9 @@ public class DetailsFragment extends Fragment {
     }
 
     private void retrieveNewsData() {
-        newsDetails = requireArguments().getParcelable("para");
+        newsDetails = DetailsFragmentArgs.fromBundle(requireArguments()).getNewsDetailsArgs();
+
+//        newsDetails = requireArguments().getParcelable("para");
 
         binding.tvTitle.setText(newsDetails.getTitle());
         binding.tvDetails.setText(newsDetails.getContent());

@@ -11,8 +11,6 @@ public interface SearchServices {
     @GET("everything")
     Observable<HomeResponse> searchData(
             @Query("q") String q,
-            @Query("from") String from,
-            @Query("sortBy") String sortBy ,
             @Query("apiKey") String apiKey
     );
 }

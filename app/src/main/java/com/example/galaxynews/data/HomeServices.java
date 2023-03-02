@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 public interface HomeServices {
 
-
+String key = "";
 
     @GET("top-headlines")
     Observable<HomeResponse> getByCountry(

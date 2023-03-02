@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel;
 
 public class BaseViewModel extends ViewModel {
 
+    public String apiKey = "2d009929ce814433a043d8158b38ad3d";
+
     public boolean isOnline(Context mContext) {
         ConnectivityManager cm =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);

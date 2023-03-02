@@ -1,5 +1,7 @@
 package com.example.galaxynews.ui.fragments.main.home;
 
+import static com.example.galaxynews.ui.fragments.main.home.HomeFragmentDirections.actionDetails;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
@@ -7,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +52,7 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
     Boolean isSliderBookMark = false;
     Boolean isLatestBookMark = false;
     int maxSize;
+    boolean isFilled = false;
 
     private final Handler slideHandler = new Handler();
 
@@ -94,16 +98,20 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
 
     private void observe() {
         viewModel.sliderNewsMutableLiveData.observe(requireActivity(), newsList -> {
-            if (newsList.isEmpty()) {
-                binding.homeSlider.setVisibility(View.INVISIBLE);
-                binding.tvNoSliderData.setVisibility(View.VISIBLE);
-            } else {
-                newsSliderAdapter.setList(newsList, binding.homeSlider, this);
-                binding.tvNoSliderData.setVisibility(View.GONE);
-                maxSize = newsList.size();
+            if (!isFilled) {
+                if (newsList.isEmpty()) {
+                    binding.homeSlider.setVisibility(View.INVISIBLE);
+                    binding.tvNoSliderData.setVisibility(View.VISIBLE);
+                } else {
+                    newsSliderAdapter.setList(newsList, this);
+                    binding.tvNoSliderData.setVisibility(View.GONE);
+                    isFilled = true;
+                    maxSize = newsList.size();
+                }
+                setupSlide();
+                visProgress(false);
             }
-            setupSlide();
-            visProgress(false);
+
         });
 
         viewModel.latestNewsMutableLiveData.observe(requireActivity(), (List<Article> newsList) ->
@@ -153,10 +161,13 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
         new TabLayoutMediator(binding.progresses, binding.homeSlider, (tab, position) -> {
         }).attach();
     }
+
     private final Runnable slideRunnable = new Runnable() {
         @Override
         public void run() {
-            binding.homeSlider.setCurrentItem(binding.homeSlider.getCurrentItem() + 1);
+            if (binding.homeSlider.getCurrentItem() == maxSize - 1)
+                binding.homeSlider.setCurrentItem(0);
+            else binding.homeSlider.setCurrentItem(binding.homeSlider.getCurrentItem() + 1);
         }
     };
 
@@ -223,8 +234,9 @@ public class HomeFragment extends Fragment implements HomeSliderOnClickInterface
 
 
     private void gotoDetails(Article article) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("para", article);
-        Navigation.findNavController(requireView()).navigate(R.id.detailsFragment, bundle);
+
+        NavDirections actionDetails = actionDetails(article);
+        Navigation.findNavController(requireView()).navigate((NavDirections) actionDetails);
+
     }
 }
